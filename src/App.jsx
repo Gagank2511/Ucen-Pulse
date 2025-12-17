@@ -44,12 +44,12 @@ function Notification({ message, type, onClose }) {
   const bgColor = type === "success" ? "bg-green-500" : "bg-red-500";
 
   return (
-    <div
+    <aside
       className={`fixed top-4 right-4 ${bgColor} text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-slide-in`}
       role="alert"
       aria-live="polite"
     >
-      <div className="flex items-center gap-2">
+      <p className="flex items-center gap-2">
         <span>{message}</span>
         <button
           onClick={onClose}
@@ -58,8 +58,8 @@ function Notification({ message, type, onClose }) {
         >
           ×
         </button>
-      </div>
-    </div>
+      </p>
+    </aside>
   );
 }
 
@@ -175,16 +175,16 @@ export default function App() {
       )}
 
       <header className="max-w-6xl mx-auto mb-6">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div>
+        <section className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <hgroup>
             <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
               UCENPulse — Personal Fitness Tracker
             </h1>
             <p className="text-sm text-gray-600 mt-1">
               Log activities, record health metrics, and visualise trends — client-side only.
             </p>
-          </div>
-          <div className="flex gap-2">
+          </hgroup>
+          <nav className="flex gap-2">
             <button
               onClick={exportData}
               className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors text-sm font-medium"
@@ -199,29 +199,29 @@ export default function App() {
             >
               🗑️ Clear All
             </button>
-          </div>
-        </div>
+          </nav>
+        </section>
       </header>
 
       <main className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left column: Forms */}
         <section aria-labelledby="inputs" className="lg:col-span-1">
-          <div className="space-y-4">
-            <div className="bg-white rounded-2xl p-4 shadow-sm">
+          <article className="space-y-4">
+            <section className="bg-white rounded-2xl p-4 shadow-sm">
               <h2 id="inputs" className="text-lg font-medium">
                 Add activity
               </h2>
               <ActivityForm onAdd={addActivity} />
-            </div>
+            </section>
 
-            <div className="bg-white rounded-2xl p-4 shadow-sm">
+            <section className="bg-white rounded-2xl p-4 shadow-sm">
               <h2 className="text-lg font-medium">Record metric</h2>
               <MetricForm onAdd={addMetric} />
-            </div>
+            </section>
 
-            <div className="bg-white rounded-2xl p-4 shadow-sm">
+            <section className="bg-white rounded-2xl p-4 shadow-sm">
               <h2 className="text-lg font-medium">Filters</h2>
-              <div className="mt-3 space-y-2">
+              <form className="mt-3 space-y-2">
                 <label className="block">
                   <span className="text-sm">Metric</span>
                   <select
@@ -263,36 +263,36 @@ export default function App() {
                     value={rangeDays}
                     onChange={(e) => setRangeDays(Number(e.target.value))}
                   />
-                  <div className="text-xs text-gray-500">
+                  <output className="text-xs text-gray-500">
                     Showing last {rangeDays} days
-                  </div>
+                  </output>
                 </label>
-              </div>
-            </div>
-          </div>
+              </form>
+            </section>
+          </article>
         </section>
 
         {/* Middle column: Charts */}
         <section className="lg:col-span-2 space-y-6" aria-label="Dashboard and visualizations">
-          <div className="bg-white rounded-2xl p-4 md:p-6 shadow-sm">
+          <article className="bg-white rounded-2xl p-4 md:p-6 shadow-sm">
             <h2 className="text-lg font-semibold mb-4">Today's Overview</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {/* Steps Card */}
-              <div
+              <article
                 className="p-4 border-2 border-blue-100 rounded-xl bg-blue-50"
                 role="status"
                 aria-label="steps today"
               >
-                <div className="flex items-center justify-between mb-2">
-                  <div className="text-sm font-medium text-blue-700">Steps</div>
-                  <span className="text-2xl">👟</span>
-                </div>
-                <div className="text-2xl font-bold text-blue-900">
+                <header className="flex items-center justify-between mb-2">
+                  <h3 className="text-sm font-medium text-blue-700">Steps</h3>
+                  <span className="text-2xl" aria-hidden="true">👟</span>
+                </header>
+                <p className="text-2xl font-bold text-blue-900">
                   {summary.totals.steps || 0}
-                </div>
-                <div className="mt-2 text-xs text-blue-600">
+                </p>
+                <p className="mt-2 text-xs text-blue-600">
                   Goal: 10,000
-                </div>
+                </p>
                 <div className="mt-1 w-full bg-blue-200 rounded-full h-2">
                   <div
                     className="bg-blue-600 h-2 rounded-full transition-all"
@@ -303,24 +303,24 @@ export default function App() {
                     aria-valuemax="10000"
                   ></div>
                 </div>
-              </div>
+              </article>
 
               {/* Water Card */}
-              <div
+              <article
                 className="p-4 border-2 border-cyan-100 rounded-xl bg-cyan-50"
                 role="status"
                 aria-label="water today"
               >
-                <div className="flex items-center justify-between mb-2">
-                  <div className="text-sm font-medium text-cyan-700">Water</div>
-                  <span className="text-2xl">💧</span>
-                </div>
-                <div className="text-2xl font-bold text-cyan-900">
+                <header className="flex items-center justify-between mb-2">
+                  <h3 className="text-sm font-medium text-cyan-700">Water</h3>
+                  <span className="text-2xl" aria-hidden="true">💧</span>
+                </header>
+                <p className="text-2xl font-bold text-cyan-900">
                   {summary.totals.water || 0} L
-                </div>
-                <div className="mt-2 text-xs text-cyan-600">
+                </p>
+                <p className="mt-2 text-xs text-cyan-600">
                   Goal: 2.5 L
-                </div>
+                </p>
                 <div className="mt-1 w-full bg-cyan-200 rounded-full h-2">
                   <div
                     className="bg-cyan-600 h-2 rounded-full transition-all"
@@ -331,24 +331,24 @@ export default function App() {
                     aria-valuemax="2.5"
                   ></div>
                 </div>
-              </div>
+              </article>
 
               {/* Sleep Card */}
-              <div
+              <article
                 className="p-4 border-2 border-purple-100 rounded-xl bg-purple-50"
                 role="status"
                 aria-label="sleep today"
               >
-                <div className="flex items-center justify-between mb-2">
-                  <div className="text-sm font-medium text-purple-700">Sleep</div>
-                  <span className="text-2xl">😴</span>
-                </div>
-                <div className="text-2xl font-bold text-purple-900">
+                <header className="flex items-center justify-between mb-2">
+                  <h3 className="text-sm font-medium text-purple-700">Sleep</h3>
+                  <span className="text-2xl" aria-hidden="true">😴</span>
+                </header>
+                <p className="text-2xl font-bold text-purple-900">
                   {summary.totals.sleep || 0} hrs
-                </div>
-                <div className="mt-2 text-xs text-purple-600">
+                </p>
+                <p className="mt-2 text-xs text-purple-600">
                   Goal: 8 hrs
-                </div>
+                </p>
                 <div className="mt-1 w-full bg-purple-200 rounded-full h-2">
                   <div
                     className="bg-purple-600 h-2 rounded-full transition-all"
@@ -359,24 +359,24 @@ export default function App() {
                     aria-valuemax="8"
                   ></div>
                 </div>
-              </div>
+              </article>
 
               {/* Calories Card */}
-              <div
+              <article
                 className="p-4 border-2 border-orange-100 rounded-xl bg-orange-50"
                 role="status"
                 aria-label="calories today"
               >
-                <div className="flex items-center justify-between mb-2">
-                  <div className="text-sm font-medium text-orange-700">Calories</div>
-                  <span className="text-2xl">🔥</span>
-                </div>
-                <div className="text-2xl font-bold text-orange-900">
+                <header className="flex items-center justify-between mb-2">
+                  <h3 className="text-sm font-medium text-orange-700">Calories</h3>
+                  <span className="text-2xl" aria-hidden="true">🔥</span>
+                </header>
+                <p className="text-2xl font-bold text-orange-900">
                   {summary.totals.calories || 0}
-                </div>
-                <div className="mt-2 text-xs text-orange-600">
+                </p>
+                <p className="mt-2 text-xs text-orange-600">
                   Goal: 2,000
-                </div>
+                </p>
                 <div className="mt-1 w-full bg-orange-200 rounded-full h-2">
                   <div
                     className="bg-orange-600 h-2 rounded-full transition-all"
@@ -387,28 +387,28 @@ export default function App() {
                     aria-valuemax="2000"
                   ></div>
                 </div>
-              </div>
-            </div>
+              </article>
+            </section>
 
-            <div className="mt-6">
+            <section className="mt-6">
               <h3 className="text-md font-semibold mb-3">Trend Analysis</h3>
               <ChartsView data={chartData} metric={selectedMetric} />
-            </div>
-          </div>
+            </section>
+          </article>
 
-          <div className="bg-white rounded-2xl p-4 shadow-sm">
+          <article className="bg-white rounded-2xl p-4 shadow-sm">
             <h2 className="text-lg font-medium">Recent activities</h2>
-            <div className="mt-3">
+            <section className="mt-3">
               <ActivityList
                 activities={filteredActivities}
                 onDelete={deleteActivity}
               />
-            </div>
-          </div>
+            </section>
+          </article>
 
-          <div className="bg-white rounded-2xl p-4 shadow-sm">
+          <article className="bg-white rounded-2xl p-4 shadow-sm">
             <h2 className="text-lg font-medium">Raw metrics (recent)</h2>
-            <div className="mt-3">
+            <section className="mt-3">
               <MetricList
                 metrics={metrics
                   .slice()
@@ -416,8 +416,8 @@ export default function App() {
                   .slice(0, 20)}
                 onDelete={deleteMetric}
               />
-            </div>
-          </div>
+            </section>
+          </article>
         </section>
       </main>
 
