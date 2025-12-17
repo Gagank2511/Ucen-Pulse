@@ -24,10 +24,10 @@ const metricUnits = {
 export default function MetricList({ metrics, onDelete }) {
   if (!metrics.length)
     return (
-      <div className="text-center py-8 text-gray-500">
+      <article className="text-center py-8 text-gray-500" role="status" aria-live="polite">
         <p className="text-lg">📊 No metrics recorded yet.</p>
         <p className="text-sm mt-2">Start tracking your health metrics above!</p>
-      </div>
+      </article>
     );
 
   return (
@@ -37,10 +37,10 @@ export default function MetricList({ metrics, onDelete }) {
           key={m.id}
           className="p-4 border border-gray-200 rounded-lg flex justify-between items-center hover:shadow-md transition-shadow bg-white"
         >
-          <div className="flex items-center gap-3 flex-1">
+          <article className="flex items-center gap-3 flex-1">
             <span className="text-2xl" aria-hidden="true">{metricIcons[m.metric]}</span>
-            <div>
-              <div className="flex items-center gap-2 mb-1">
+            <section>
+              <header className="flex items-center gap-2 mb-1">
                 <time className="text-sm text-gray-600 font-medium" dateTime={m.date}>
                   {new Date(m.date).toLocaleDateString('en-GB', {
                     weekday: 'short',
@@ -48,23 +48,23 @@ export default function MetricList({ metrics, onDelete }) {
                     month: 'short'
                   })}
                 </time>
-                <span className="text-gray-400">•</span>
+                <span className="text-gray-400" aria-hidden="true">•</span>
                 <span className="text-sm font-semibold text-gray-900">{metricLabels[m.metric]}</span>
-              </div>
-              <div className="text-lg font-bold text-gray-800">
+              </header>
+              <p className="text-lg font-bold text-gray-800">
                 {m.value} <span className="text-sm font-normal text-gray-600">{metricUnits[m.metric]}</span>
-              </div>
-            </div>
-          </div>
-          <div>
+              </p>
+            </section>
+          </article>
+          <nav>
             <button
-              aria-label={`Delete ${metricLabels[m.metric]} metric from ${m.date}`}
+              aria-label={`Delete ${metricLabels[m.metric]} metric from ${m.date}, value ${m.value} ${metricUnits[m.metric]}`}
               onClick={() => onDelete(m.id)}
               className="text-red-600 hover:text-red-800 text-sm font-medium px-3 py-1 rounded hover:bg-red-50 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500"
             >
               Delete
             </button>
-          </div>
+          </nav>
         </li>
       ))}
     </ul>
