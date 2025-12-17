@@ -1,3 +1,16 @@
+/**
+ * App Component - Main Application
+ * UCENPulse Personal Fitness Tracker
+ *
+ * Features:
+ * - Activity logging (running, cycling, gym, etc.)
+ * - Health metrics tracking (steps, water, sleep, calories)
+ * - Interactive data visualization with charts
+ * - Dashboard with today's overview and progress tracking
+ * - Data export/import functionality
+ * - Client-side storage using localStorage
+ */
+
 import React, { useState, useEffect, useMemo } from "react";
 import {
   load,
@@ -12,9 +25,11 @@ import ActivityList from "./components/ActivityList.jsx";
 import MetricList from "./components/MetricList.jsx";
 import ChartsView from "./components/ChartsView.jsx";
 
+// localStorage keys for data persistence
 const ACT_KEY = "ucen_activities";
 const MET_KEY = "ucen_metrics";
 
+// Sample data for first-time users
 const sampleActivities = [
   {
     id: 1,
@@ -34,8 +49,12 @@ const sampleMetrics = [
   { id: 5, date: todayISO(-1), metric: "water", value: 1.5 },
 ];
 
-// Notification Component
+/**
+ * Notification Component
+ * Displays success/error messages that auto-dismiss after 3 seconds
+ */
 function Notification({ message, type, onClose }) {
+  // Auto-dismiss notification after 3 seconds
   useEffect(() => {
     const timer = setTimeout(onClose, 3000);
     return () => clearTimeout(timer);
@@ -64,64 +83,74 @@ function Notification({ message, type, onClose }) {
 }
 
 export default function App() {
+  // Main application state - load from localStorage or use sample data
   const [activities, setActivities] = useState(() =>
     load(ACT_KEY, sampleActivities)
   );
   const [metrics, setMetrics] = useState(() => load(MET_KEY, sampleMetrics));
 
-  // UI state
-  const [selectedMetric, setSelectedMetric] = useState("steps");
-  const [selectedActivityFilter, setSelectedActivityFilter] = useState("all");
-  const [rangeDays, setRangeDays] = useState(14);
-  const [notification, setNotification] = useState(null);
+  // UI state for filters and notifications
+  const [selectedMetric, setSelectedMetric] = useState("steps"); // Which metric to display in charts
+  const [selectedActivityFilter, setSelectedActivityFilter] = useState("all"); // Filter activities by type
+  const [rangeDays, setRangeDays] = useState(14); // Date range for charts (7-90 days)
+  const [notification, setNotification] = useState(null); // Current notification message
 
+  // Auto-save to localStorage whenever data changes
   useEffect(() => save(ACT_KEY, activities), [activities]);
   useEffect(() => save(MET_KEY, metrics), [metrics]);
 
+  // Show notification message to user
   function showNotification(message, type = "success") {
     setNotification({ message, type });
   }
 
-  // derived data
+  // Get unique activity types for filter dropdown
   const activityTypes = useMemo(() => {
     const types = new Set(activities.map((a) => a.type));
     return ["all", ...Array.from(types)];
   }, [activities]);
 
+  // Filter and sort activities based on selected filter
   const filteredActivities = activities
     .filter((a) => {
       if (selectedActivityFilter === "all") return true;
       return a.type === selectedActivityFilter;
     })
-    .sort((a, b) => b.date.localeCompare(a.date));
+    .sort((a, b) => b.date.localeCompare(a.date)); // Sort by date (newest first)
 
+  // Prepare data for charts - aggregate metrics by date
   const chartData = useMemo(
     () => aggregateMetrics(metrics, selectedMetric, rangeDays),
     [metrics, selectedMetric, rangeDays]
   );
 
+  // Add a new activity to the list
   function addActivity({ date, type, duration, notes }) {
     const next = { id: uid(), date, type, duration: Number(duration), notes };
-    setActivities((s) => [...s, next]);
+    setActivities((s) => [...s, next]); // Add to existing activities
     showNotification("Activity added successfully! 🎉");
   }
 
+  // Add a new metric to the list
   function addMetric({ date, metric, value }) {
     const next = { id: uid(), date, metric, value: Number(value) };
-    setMetrics((s) => [...s, next]);
+    setMetrics((s) => [...s, next]); // Add to existing metrics
     showNotification("Metric saved successfully! ✓");
   }
 
+  // Delete an activity by ID
   function deleteActivity(id) {
-    setActivities((s) => s.filter((x) => x.id !== id));
+    setActivities((s) => s.filter((x) => x.id !== id)); // Remove activity with matching ID
     showNotification("Activity deleted");
   }
 
+  // Delete a metric by ID
   function deleteMetric(id) {
-    setMetrics((s) => s.filter((x) => x.id !== id));
+    setMetrics((s) => s.filter((x) => x.id !== id)); // Remove metric with matching ID
     showNotification("Metric deleted");
   }
 
+  // Export all data as JSON file
   function exportData() {
     const data = {
       activities,
@@ -130,6 +159,7 @@ export default function App() {
       version: "1.0"
     };
 
+    // Create downloadable JSON file
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -142,6 +172,7 @@ export default function App() {
     showNotification("Data exported successfully! 📥");
   }
 
+  // Clear all data with confirmation
   function clearAllData() {
     if (window.confirm("Are you sure you want to clear all data? This cannot be undone.")) {
       setActivities([]);
@@ -150,17 +181,23 @@ export default function App() {
     }
   }
 
+  // Calculate today's summary data for dashboard
   const summary = useMemo(() => {
     const today = todayISO(0);
-    const todaysMetrics = metrics.filter((m) => m.date === today);
+    const todaysMetrics = metrics.filter((m) => m.date === today); // Get only today's metrics
+
+    // Sum up all metrics for today
     const totals = {};
     todaysMetrics.forEach((m) => {
       totals[m.metric] = (totals[m.metric] || 0) + Number(m.value);
     });
+
+    // Get 5 most recent activities
     const recentActivities = activities
       .slice()
-      .sort((a, b) => b.date.localeCompare(a.date))
-      .slice(0, 5);
+      .sort((a, b) => b.date.localeCompare(a.date)) // Sort by date (newest first)
+      .slice(0, 5); // Take first 5
+
     return { totals, recentActivities };
   }, [metrics, activities]);
 
