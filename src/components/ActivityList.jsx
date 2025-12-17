@@ -3,10 +3,10 @@ import React from "react";
 export default function ActivityList({ activities, onDelete }) {
   if (!activities.length)
     return (
-      <div className="text-center py-8 text-gray-500">
+      <article className="text-center py-8 text-gray-500">
         <p className="text-lg">📋 No activities yet.</p>
         <p className="text-sm mt-2">Start by adding your first activity above!</p>
-      </div>
+      </article>
     );
 
   return (
@@ -16,8 +16,8 @@ export default function ActivityList({ activities, onDelete }) {
           key={a.id}
           className="p-4 border border-gray-200 rounded-lg flex justify-between items-start hover:shadow-md transition-shadow bg-white"
         >
-          <div className="flex-1">
-            <div className="flex items-center gap-2 mb-1">
+          <article className="flex-1">
+            <header className="flex items-center gap-2 mb-1">
               <time className="text-sm text-gray-600 font-medium" dateTime={a.date}>
                 {new Date(a.date).toLocaleDateString('en-GB', {
                   weekday: 'short',
@@ -27,17 +27,17 @@ export default function ActivityList({ activities, onDelete }) {
               </time>
               <span className="text-gray-400">•</span>
               <span className="text-sm font-semibold text-gray-900">{a.type}</span>
-            </div>
-            <div className="text-sm text-gray-700">
+            </header>
+            <p className="text-sm text-gray-700">
               <span className="font-medium">{a.duration}</span> minutes
-            </div>
+            </p>
             {a.notes && (
-              <div className="text-sm text-gray-600 mt-2 italic bg-gray-50 p-2 rounded">
+              <blockquote className="text-sm text-gray-600 mt-2 italic bg-gray-50 p-2 rounded">
                 "{a.notes}"
-              </div>
+              </blockquote>
             )}
-          </div>
-          <div>
+          </article>
+          <nav>
             <button
               aria-label={`Delete ${a.type} activity from ${a.date}`}
               onClick={() => onDelete(a.id)}
@@ -45,7 +45,7 @@ export default function ActivityList({ activities, onDelete }) {
             >
               Delete
             </button>
-          </div>
+          </nav>
         </li>
       ))}
     </ul>
