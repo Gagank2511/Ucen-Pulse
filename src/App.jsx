@@ -166,6 +166,14 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+      {/* Skip to main content link for keyboard navigation */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-blue-600 focus:text-white focus:rounded-lg focus:shadow-lg"
+      >
+        Skip to main content
+      </a>
+
       {notification && (
         <Notification
           message={notification.message}
@@ -174,7 +182,7 @@ export default function App() {
         />
       )}
 
-      <header className="max-w-6xl mx-auto mb-6">
+      <header className="max-w-6xl mx-auto mb-6" role="banner">
         <section className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <hgroup>
             <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
@@ -203,9 +211,9 @@ export default function App() {
         </section>
       </header>
 
-      <main className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <main id="main-content" className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6" role="main">
         {/* Left column: Forms */}
-        <section aria-labelledby="inputs" className="lg:col-span-1">
+        <section aria-labelledby="inputs" className="lg:col-span-1" role="region">
           <article className="space-y-4">
             <section className="bg-white rounded-2xl p-4 shadow-sm">
               <h2 id="inputs" className="text-lg font-medium">
@@ -273,7 +281,7 @@ export default function App() {
         </section>
 
         {/* Middle column: Charts */}
-        <section className="lg:col-span-2 space-y-6" aria-label="Dashboard and visualizations">
+        <section className="lg:col-span-2 space-y-6" aria-label="Dashboard and visualizations" role="region">
           <article className="bg-white rounded-2xl p-4 md:p-6 shadow-sm">
             <h2 className="text-lg font-semibold mb-4">Today's Overview</h2>
             <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -421,9 +429,13 @@ export default function App() {
         </section>
       </main>
 
-      <footer className="max-w-6xl mx-auto mt-6 text-sm text-gray-500">
-        Client-side demo • Accessible & responsive • Data saved locally in your
-        browser
+      <footer className="max-w-6xl mx-auto mt-6 text-sm text-gray-500" role="contentinfo">
+        <p className="text-center">
+          Client-side demo • Accessible & responsive • Data saved locally in your browser
+        </p>
+        <p className="mt-2 text-xs text-center">
+          <span className="font-medium">Keyboard shortcuts:</span> Tab to navigate, Enter to submit forms, Space to toggle buttons
+        </p>
       </footer>
     </div>
   );
