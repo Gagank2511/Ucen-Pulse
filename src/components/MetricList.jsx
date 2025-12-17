@@ -1,5 +1,12 @@
+/**
+ * MetricList Component
+ * Displays a list of recorded health metrics with icons and delete functionality
+ * Shows empty state when no metrics exist
+ */
+
 import React from "react";
 
+// Icon emojis for each metric type
 const metricIcons = {
   steps: "👟",
   water: "💧",
@@ -7,6 +14,7 @@ const metricIcons = {
   calories: "🔥"
 };
 
+// Display labels for each metric
 const metricLabels = {
   steps: "Steps",
   water: "Water",
@@ -14,6 +22,7 @@ const metricLabels = {
   calories: "Calories"
 };
 
+// Units of measurement for each metric
 const metricUnits = {
   steps: "",
   water: "L",
@@ -22,6 +31,7 @@ const metricUnits = {
 };
 
 export default function MetricList({ metrics, onDelete }) {
+  // Show empty state message if no metrics
   if (!metrics.length)
     return (
       <article className="text-center py-8 text-gray-500" role="status" aria-live="polite">
@@ -30,8 +40,10 @@ export default function MetricList({ metrics, onDelete }) {
       </article>
     );
 
+  // Render list of metrics
   return (
     <ul className="space-y-3" aria-live="polite" aria-label="Metrics list">
+      {/* Map through metrics array and render each one */}
       {metrics.map((m) => (
         <li
           key={m.id}
