@@ -31,12 +31,12 @@ const metricLabels = {
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-white p-3 border border-gray-300 rounded-lg shadow-lg">
+      <aside className="bg-white p-3 border border-gray-300 rounded-lg shadow-lg" role="tooltip">
         <p className="font-medium text-gray-900">{label}</p>
         <p className="text-sm text-gray-600">
           {payload[0].name}: <span className="font-semibold">{payload[0].value}</span>
         </p>
-      </div>
+      </aside>
     );
   }
   return null;
@@ -55,25 +55,25 @@ export default function ChartsView({ data, metric }) {
   const max = values.length > 0 ? Math.max(...values) : 0;
 
   return (
-    <div className="space-y-4">
+    <article className="space-y-4">
       {/* Statistics Summary */}
-      <div className="grid grid-cols-3 gap-3 text-center">
-        <div className="bg-gray-50 p-2 rounded-lg">
-          <div className="text-xs text-gray-500">Average</div>
-          <div className="text-lg font-semibold" style={{ color }}>{average}</div>
-        </div>
-        <div className="bg-gray-50 p-2 rounded-lg">
-          <div className="text-xs text-gray-500">Peak</div>
-          <div className="text-lg font-semibold" style={{ color }}>{max}</div>
-        </div>
-        <div className="bg-gray-50 p-2 rounded-lg">
-          <div className="text-xs text-gray-500">Total</div>
-          <div className="text-lg font-semibold" style={{ color }}>{total}</div>
-        </div>
-      </div>
+      <section className="grid grid-cols-3 gap-3 text-center" aria-label="Statistics summary">
+        <article className="bg-gray-50 p-2 rounded-lg">
+          <header className="text-xs text-gray-500">Average</header>
+          <p className="text-lg font-semibold" style={{ color }}>{average}</p>
+        </article>
+        <article className="bg-gray-50 p-2 rounded-lg">
+          <header className="text-xs text-gray-500">Peak</header>
+          <p className="text-lg font-semibold" style={{ color }}>{max}</p>
+        </article>
+        <article className="bg-gray-50 p-2 rounded-lg">
+          <header className="text-xs text-gray-500">Total</header>
+          <p className="text-lg font-semibold" style={{ color }}>{total}</p>
+        </article>
+      </section>
 
       {/* Chart */}
-      <div
+      <figure
         style={{ width: "100%", height: 320 }}
         role="img"
         aria-label={`${label} trend chart showing data over time. Average: ${average}, Peak: ${max}, Total: ${total}`}
@@ -145,7 +145,7 @@ export default function ChartsView({ data, metric }) {
             </AreaChart>
           )}
         </ResponsiveContainer>
-      </div>
-    </div>
+      </figure>
+    </article>
   );
 }
