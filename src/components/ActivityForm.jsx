@@ -1,40 +1,56 @@
+/**
+ * ActivityForm Component
+ * Form for logging daily activities (running, cycling, gym, etc.)
+ * Includes validation for date, duration, and optional notes
+ */
+
 import React, { useState } from "react";
 import { todayISO } from "../utils/storage.js";
 
 export default function ActivityForm({ onAdd }) {
-  const [date, setDate] = useState(todayISO(0));
-  const [type, setType] = useState("Running");
-  const [duration, setDuration] = useState(30);
-  const [notes, setNotes] = useState("");
-  const [errors, setErrors] = useState({});
+  // Form state - stores user input values
+  const [date, setDate] = useState(todayISO(0)); // Default to today
+  const [type, setType] = useState("Running"); // Default activity type
+  const [duration, setDuration] = useState(30); // Default 30 minutes
+  const [notes, setNotes] = useState(""); // Optional notes
+  const [errors, setErrors] = useState({}); // Validation errors
 
+  // Validate form inputs before submission
   function validate() {
     const newErrors = {};
 
+    // Date is required
     if (!date) {
       newErrors.date = "Date is required";
     }
 
+    // Duration must be at least 1 minute
     if (!duration || duration < 1) {
       newErrors.duration = "Duration must be at least 1 minute";
     }
 
+    // Duration cannot exceed 24 hours (1440 minutes)
     if (duration > 1440) {
       newErrors.duration = "Duration cannot exceed 24 hours (1440 minutes)";
     }
 
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    return Object.keys(newErrors).length === 0; // Return true if no errors
   }
 
+  // Handle form submission
   function submit(e) {
-    e.preventDefault();
+    e.preventDefault(); // Prevent page reload
 
+    // Only submit if validation passes
     if (!validate()) {
       return;
     }
 
+    // Call parent component's onAdd function with form data
     onAdd({ date, type, duration, notes });
+
+    // Reset notes field after successful submission
     setNotes("");
     setErrors({});
   }
@@ -46,9 +62,11 @@ export default function ActivityForm({ onAdd }) {
       aria-label="Add activity form"
       noValidate
     >
+      {/* Fieldset groups related form fields together */}
       <fieldset className="space-y-3 border-0 p-0 m-0">
         <legend className="sr-only">Activity Details</legend>
 
+        {/* Date input field */}
         <section>
           <label htmlFor="activity-date" className="block">
             <span className="text-sm font-medium">Date</span>
@@ -66,6 +84,7 @@ export default function ActivityForm({ onAdd }) {
               aria-describedby={errors.date ? "date-error" : undefined}
             />
           </label>
+          {/* Show error message if date validation fails */}
           {errors.date && (
             <p id="date-error" className="mt-1 text-sm text-red-600" role="alert">
               {errors.date}
@@ -73,6 +92,7 @@ export default function ActivityForm({ onAdd }) {
           )}
         </section>
 
+        {/* Activity type dropdown - 7 options available */}
         <section>
           <label htmlFor="activity-type" className="block">
             <span className="text-sm font-medium">Type</span>
@@ -94,6 +114,7 @@ export default function ActivityForm({ onAdd }) {
           </label>
         </section>
 
+        {/* Duration input - must be between 1 and 1440 minutes (24 hours) */}
         <section>
           <label htmlFor="activity-duration" className="block">
             <span className="text-sm font-medium">Duration (minutes)</span>
@@ -113,6 +134,7 @@ export default function ActivityForm({ onAdd }) {
               aria-describedby={errors.duration ? "duration-error" : undefined}
             />
           </label>
+          {/* Show error message if duration validation fails */}
           {errors.duration && (
             <p id="duration-error" className="mt-1 text-sm text-red-600" role="alert">
               {errors.duration}
@@ -120,6 +142,7 @@ export default function ActivityForm({ onAdd }) {
           )}
         </section>
 
+        {/* Optional notes field with character counter (max 200 characters) */}
         <section>
           <label htmlFor="activity-notes" className="block">
             <span className="text-sm font-medium">Notes (optional)</span>
@@ -132,11 +155,13 @@ export default function ActivityForm({ onAdd }) {
               maxLength="200"
               aria-label="Activity notes"
             />
+            {/* Character counter shows current/max characters */}
             <span className="text-xs text-gray-500">{notes.length}/200 characters</span>
           </label>
         </section>
       </fieldset>
 
+      {/* Submit button */}
       <section>
         <button
           type="submit"
