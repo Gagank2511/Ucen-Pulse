@@ -1,3 +1,10 @@
+/**
+ * ChartsView Component
+ * Displays interactive charts for metric visualization
+ * Shows bar charts for steps/calories and area charts for water/sleep
+ * Includes statistics summary (average, peak, total)
+ */
+
 import React from "react";
 import {
   LineChart,
@@ -14,13 +21,15 @@ import {
   AreaChart,
 } from "recharts";
 
+// Color scheme for each metric type
 const metricColors = {
-  steps: "#3b82f6",
-  water: "#06b6d4",
-  sleep: "#8b5cf6",
-  calories: "#f59e0b"
+  steps: "#3b82f6",      // Blue
+  water: "#06b6d4",      // Cyan
+  sleep: "#8b5cf6",      // Purple
+  calories: "#f59e0b"    // Orange
 };
 
+// Display labels for each metric
 const metricLabels = {
   steps: "Steps",
   water: "Water (L)",
@@ -28,6 +37,7 @@ const metricLabels = {
   calories: "Calories"
 };
 
+// Custom tooltip component for chart hover interactions
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
@@ -43,16 +53,16 @@ const CustomTooltip = ({ active, payload, label }) => {
 };
 
 export default function ChartsView({ data, metric }) {
-  // pick visual type: steps/calories -> bar, water/sleep -> area
+  // Determine chart type: bar charts for steps/calories, area charts for water/sleep
   const isBar = metric === "steps" || metric === "calories";
   const color = metricColors[metric] || "#3b82f6";
   const label = metricLabels[metric] || metric;
 
-  // Calculate statistics
-  const values = data.map(d => d[metric] || 0).filter(v => v > 0);
-  const total = values.reduce((sum, v) => sum + v, 0);
-  const average = values.length > 0 ? (total / values.length).toFixed(1) : 0;
-  const max = values.length > 0 ? Math.max(...values) : 0;
+  // Calculate statistics from the data
+  const values = data.map(d => d[metric] || 0).filter(v => v > 0); // Get all non-zero values
+  const total = values.reduce((sum, v) => sum + v, 0); // Sum of all values
+  const average = values.length > 0 ? (total / values.length).toFixed(1) : 0; // Mean value
+  const max = values.length > 0 ? Math.max(...values) : 0; // Maximum value
 
   return (
     <article className="space-y-4">
