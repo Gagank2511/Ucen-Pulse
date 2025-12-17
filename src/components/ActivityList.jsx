@@ -3,7 +3,7 @@ import React from "react";
 export default function ActivityList({ activities, onDelete }) {
   if (!activities.length)
     return (
-      <article className="text-center py-8 text-gray-500">
+      <article className="text-center py-8 text-gray-500" role="status" aria-live="polite">
         <p className="text-lg">📋 No activities yet.</p>
         <p className="text-sm mt-2">Start by adding your first activity above!</p>
       </article>
@@ -25,7 +25,7 @@ export default function ActivityList({ activities, onDelete }) {
                   month: 'short'
                 })}
               </time>
-              <span className="text-gray-400">•</span>
+              <span className="text-gray-400" aria-hidden="true">•</span>
               <span className="text-sm font-semibold text-gray-900">{a.type}</span>
             </header>
             <p className="text-sm text-gray-700">
@@ -39,7 +39,7 @@ export default function ActivityList({ activities, onDelete }) {
           </article>
           <nav>
             <button
-              aria-label={`Delete ${a.type} activity from ${a.date}`}
+              aria-label={`Delete ${a.type} activity from ${new Date(a.date).toLocaleDateString('en-GB')}, duration ${a.duration} minutes`}
               onClick={() => onDelete(a.id)}
               className="text-red-600 hover:text-red-800 text-sm font-medium px-3 py-1 rounded hover:bg-red-50 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500"
             >
