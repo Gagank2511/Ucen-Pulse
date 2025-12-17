@@ -1,12 +1,20 @@
+/**
+ * MetricForm Component
+ * Form for recording health metrics (steps, water, sleep, calories)
+ * Each metric has specific validation rules (min, max, step values)
+ */
+
 import React, { useState } from "react";
 import { todayISO } from "../utils/storage.js";
 
 export default function MetricForm({ onAdd }) {
-  const [date, setDate] = useState(todayISO(0));
-  const [metric, setMetric] = useState("steps");
-  const [value, setValue] = useState(0);
-  const [errors, setErrors] = useState({});
+  // Form state - stores user input values
+  const [date, setDate] = useState(todayISO(0)); // Default to today
+  const [metric, setMetric] = useState("steps"); // Default metric type
+  const [value, setValue] = useState(0); // Metric value
+  const [errors, setErrors] = useState({}); // Validation errors
 
+  // Configuration for each metric type - defines validation rules
   const metricConfig = {
     steps: { min: 0, max: 100000, step: 1, label: "Steps" },
     water: { min: 0, max: 20, step: 0.1, label: "Water (L)" },
@@ -14,14 +22,17 @@ export default function MetricForm({ onAdd }) {
     calories: { min: 0, max: 10000, step: 1, label: "Calories" }
   };
 
+  // Validate form inputs based on selected metric's configuration
   function validate() {
     const newErrors = {};
     const config = metricConfig[metric];
 
+    // Date is required
     if (!date) {
       newErrors.date = "Date is required";
     }
 
+    // Value must be within the metric's min/max range
     if (value === "" || value < config.min) {
       newErrors.value = `Value must be at least ${config.min}`;
     }
@@ -31,21 +42,27 @@ export default function MetricForm({ onAdd }) {
     }
 
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    return Object.keys(newErrors).length === 0; // Return true if no errors
   }
 
+  // Handle form submission
   function submit(e) {
-    e.preventDefault();
+    e.preventDefault(); // Prevent page reload
 
+    // Only submit if validation passes
     if (!validate()) {
       return;
     }
 
+    // Call parent component's onAdd function with form data
     onAdd({ date, metric, value });
+
+    // Reset value field after successful submission
     setValue(0);
     setErrors({});
   }
 
+  // Get configuration for currently selected metric
   const config = metricConfig[metric];
 
   return (
