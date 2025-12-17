@@ -1,6 +1,13 @@
+/**
+ * ActivityList Component
+ * Displays a list of logged activities with delete functionality
+ * Shows empty state when no activities exist
+ */
+
 import React from "react";
 
 export default function ActivityList({ activities, onDelete }) {
+  // Show empty state message if no activities
   if (!activities.length)
     return (
       <article className="text-center py-8 text-gray-500" role="status" aria-live="polite">
@@ -9,8 +16,10 @@ export default function ActivityList({ activities, onDelete }) {
       </article>
     );
 
+  // Render list of activities
   return (
     <ul className="space-y-3" aria-live="polite" aria-label="Activities list">
+      {/* Map through activities array and render each one */}
       {activities.map((a) => (
         <li
           key={a.id}
