@@ -83,6 +83,32 @@ export const DISPLAY_LIMITS = {
   RECENT_ACTIVITIES: 5,
 };
 
+// Activity types
+export const ACTIVITY_TYPES = [
+  "Running",
+  "Cycling",
+  "Gym",
+  "Yoga",
+  "Swimming",
+  "Walking",
+  "Other",
+];
+
+// Validation rules
+export const VALIDATION = {
+  ACTIVITY: {
+    DURATION_MIN: 1,
+    DURATION_MAX: 1440, // 24 hours in minutes
+    NOTES_MAX_LENGTH: 200,
+  },
+  METRIC: {
+    steps: { min: 0, max: 100000, step: 1, label: "Steps" },
+    water: { min: 0, max: 20, step: 0.1, label: "Water (L)" },
+    sleep: { min: 0, max: 24, step: 0.5, label: "Sleep (hrs)" },
+    calories: { min: 0, max: 10000, step: 1, label: "Calories" },
+  },
+};
+
 // Notification settings
 export const NOTIFICATION_DURATION = 3000; // milliseconds
 
