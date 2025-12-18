@@ -69,10 +69,10 @@ export default function ActivityForm({ onAdd }) {
         {/* Date input field */}
         <section>
           <label htmlFor="activity-date" className="block">
-            <span className="text-sm font-medium">Date</span>
+            <span className="text-sm font-medium dark:text-gray-300">Date</span>
             <input
               id="activity-date"
-              className={`mt-1 block w-full rounded-md border p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+              className={`mt-1 block w-full rounded-md border p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 transition-colors ${
                 errors.date ? 'border-red-500' : 'border-gray-300'
               }`}
               type="date"
@@ -95,10 +95,10 @@ export default function ActivityForm({ onAdd }) {
         {/* Activity type dropdown - 7 options available */}
         <section>
           <label htmlFor="activity-type" className="block">
-            <span className="text-sm font-medium">Type</span>
+            <span className="text-sm font-medium dark:text-gray-300">Type</span>
             <select
               id="activity-type"
-              className="mt-1 block w-full rounded-md border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
               value={type}
               onChange={(e) => setType(e.target.value)}
               aria-label="Activity type"
@@ -117,10 +117,10 @@ export default function ActivityForm({ onAdd }) {
         {/* Duration input - must be between 1 and 1440 minutes (24 hours) */}
         <section>
           <label htmlFor="activity-duration" className="block">
-            <span className="text-sm font-medium">Duration (minutes)</span>
+            <span className="text-sm font-medium dark:text-gray-300">Duration (minutes)</span>
             <input
               id="activity-duration"
-              className={`mt-1 block w-full rounded-md border p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+              className={`mt-1 block w-full rounded-md border p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 transition-colors ${
                 errors.duration ? 'border-red-500' : 'border-gray-300'
               }`}
               type="number"
@@ -145,10 +145,10 @@ export default function ActivityForm({ onAdd }) {
         {/* Optional notes field with character counter (max 200 characters) */}
         <section>
           <label htmlFor="activity-notes" className="block">
-            <span className="text-sm font-medium">Notes (optional)</span>
+            <span className="text-sm font-medium dark:text-gray-300">Notes (optional)</span>
             <textarea
               id="activity-notes"
-              className="mt-1 block w-full rounded-md border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
               rows="2"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
@@ -156,7 +156,7 @@ export default function ActivityForm({ onAdd }) {
               aria-label="Activity notes"
             />
             {/* Character counter shows current/max characters */}
-            <span className="text-xs text-gray-500">{notes.length}/200 characters</span>
+            <span className="text-xs text-gray-500 dark:text-gray-400">{notes.length}/200 characters</span>
           </label>
         </section>
       </fieldset>
@@ -165,7 +165,7 @@ export default function ActivityForm({ onAdd }) {
       <section>
         <button
           type="submit"
-          className="w-full px-4 py-2 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+          className="w-full px-4 py-2 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all animate-scale-in"
         >
           Add Activity
         </button>
