@@ -72,10 +72,10 @@ export default function MetricForm({ onAdd }) {
 
         <section>
           <label htmlFor="metric-date" className="block">
-            <span className="text-sm font-medium">Date</span>
+            <span className="text-sm font-medium dark:text-gray-300">Date</span>
             <input
               id="metric-date"
-              className={`mt-1 block w-full rounded-md border p-2 focus:ring-2 focus:ring-green-500 focus:border-green-500 ${
+              className={`mt-1 block w-full rounded-md border p-2 focus:ring-2 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 transition-colors ${
                 errors.date ? 'border-red-500' : 'border-gray-300'
               }`}
               type="date"
@@ -96,10 +96,10 @@ export default function MetricForm({ onAdd }) {
 
         <section>
           <label htmlFor="metric-type" className="block">
-            <span className="text-sm font-medium">Metric</span>
+            <span className="text-sm font-medium dark:text-gray-300">Metric</span>
             <select
               id="metric-type"
-              className="mt-1 block w-full rounded-md border border-gray-300 p-2 focus:ring-2 focus:ring-green-500 focus:border-green-500"
+              className="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white p-2 focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors"
               value={metric}
               onChange={(e) => setMetric(e.target.value)}
               aria-label="Metric type"
@@ -114,10 +114,10 @@ export default function MetricForm({ onAdd }) {
 
         <section>
           <label htmlFor="metric-value" className="block">
-            <span className="text-sm font-medium">{config.label}</span>
+            <span className="text-sm font-medium dark:text-gray-300">{config.label}</span>
             <input
               id="metric-value"
-              className={`mt-1 block w-full rounded-md border p-2 focus:ring-2 focus:ring-green-500 focus:border-green-500 ${
+              className={`mt-1 block w-full rounded-md border p-2 focus:ring-2 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:text-white dark:border-gray-600 transition-colors ${
                 errors.value ? 'border-red-500' : 'border-gray-300'
               }`}
               type="number"
@@ -143,7 +143,7 @@ export default function MetricForm({ onAdd }) {
       <section>
         <button
           type="submit"
-          className="w-full px-4 py-2 rounded-lg bg-green-600 text-white font-medium hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors"
+          className="w-full px-4 py-2 rounded-lg bg-green-600 text-white font-medium hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all animate-scale-in"
         >
           Save Metric
         </button>
