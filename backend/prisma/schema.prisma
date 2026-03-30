@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int        @id @default(autoincrement())
+  email      String     @unique
+  name       String
+  password   String
+  createdAt  DateTime   @default(now())
+  activities Activity[]
+  metrics    Metric[]
+}
+
+model Activity {
+  id       Int      @id @default(autoincrement())
+  date     DateTime
+  type     String
+  duration Int
+  notes    String?
+  userId   Int
+  user     User     @relation(fields: [userId], references: [id])
+}
+
+model Metric {
+  id       Int      @id @default(autoincrement())
+  date     DateTime
+  metric   String   // steps, water, sleep, calories
+  value    Float
+
+  userId   Int
+  user     User     @relation(fields: [userId], references: [id])
+}
