@@ -1,83 +1,29 @@
-/**
- * MetricList Component
- * Displays a list of recorded health metrics with icons and delete functionality
- * Shows empty state when no metrics exist
- */
-
 import React from "react";
-
-// Icon emojis for each metric type
-const metricIcons = {
-  steps: "👟",
-  water: "💧",
-  sleep: "😴",
-  calories: "🔥"
-};
-
-// Display labels for each metric
-const metricLabels = {
-  steps: "Steps",
-  water: "Water",
-  sleep: "Sleep",
-  calories: "Calories"
-};
-
-// Units of measurement for each metric
-const metricUnits = {
-  steps: "",
-  water: "L",
-  sleep: "hrs",
-  calories: "kcal"
-};
+import {formatISODate} from "../utils/metrics.js";
 
 export default function MetricList({ metrics, onDelete }) {
-  // Show empty state message if no metrics
   if (!metrics.length)
-    return (
-      <article className="text-center py-8 text-gray-500 dark:text-gray-400 animate-bounce-gentle" role="status" aria-live="polite">
-        <p className="text-4xl mb-2">📊</p>
-        <p className="text-lg">No metrics recorded yet.</p>
-        <p className="text-sm mt-2">Start tracking your health metrics above!</p>
-      </article>
-    );
-
-  // Render list of metrics
+    return <div className="text-sm text-gray-500">No metrics recorded.</div>;
   return (
-    <ul className="space-y-3" aria-live="polite" aria-label="Metrics list">
-      {/* Map through metrics array and render each one */}
+    <ul className="space-y-2">
       {metrics.map((m) => (
         <li
           key={m.id}
-          className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg flex justify-between items-center hover:shadow-md transition-all bg-white dark:bg-gray-700 animate-fade-in"
+          className="p-3 border rounded-lg flex justify-between items-center"
         >
-          <article className="flex items-center gap-3 flex-1">
-            <span className="text-2xl" aria-hidden="true">{metricIcons[m.metric]}</span>
-            <section>
-              <header className="flex items-center gap-2 mb-1">
-                <time className="text-sm text-gray-600 dark:text-gray-400 font-medium" dateTime={m.date}>
-                  {new Date(m.date).toLocaleDateString('en-GB', {
-                    weekday: 'short',
-                    day: 'numeric',
-                    month: 'short'
-                  })}
-                </time>
-                <span className="text-gray-400 dark:text-gray-600" aria-hidden="true">•</span>
-                <span className="text-sm font-semibold text-gray-900 dark:text-white">{metricLabels[m.metric]}</span>
-              </header>
-              <p className="text-lg font-bold text-gray-800 dark:text-gray-200">
-                {m.value} <span className="text-sm font-normal text-gray-600 dark:text-gray-400">{metricUnits[m.metric]}</span>
-              </p>
-            </section>
-          </article>
-          <nav>
+          <div className="text-sm text-gray-700">
+            {formatISODate(m.date)} — <span className="font-medium">{m.metric}</span>:{" "}
+            {m.value}
+          </div>
+          <div>
             <button
-              aria-label={`Delete ${metricLabels[m.metric]} metric from ${m.date}, value ${m.value} ${metricUnits[m.metric]}`}
+              aria-label={`Delete metric ${m.metric} on ${formatISODate(m.date)}`}
               onClick={() => onDelete(m.id)}
-              className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 text-sm font-medium px-3 py-1 rounded hover:bg-red-50 dark:hover:bg-red-900/30 transition-all focus:outline-none focus:ring-2 focus:ring-red-500"
+              className="text-red-600 text-sm"
             >
               Delete
             </button>
-          </nav>
+          </div>
         </li>
       ))}
     </ul>
