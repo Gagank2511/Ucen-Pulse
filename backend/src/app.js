@@ -3,6 +3,7 @@ import cors from "cors";
 import authRoutes from "./routes/authRoutes.js";
 import activityRoutes from "./routes/activityRoutes.js";
 import metricRoutes from "./routes/metricRoutes.js";
+import weatherRoutes from "./routes/weatherRoutes.js";
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/activities", activityRoutes);
 app.use("/api/metrics", metricRoutes);
+app.use("/api/weather", weatherRoutes);
 app.get("/", (req, res) => {
   res.json({ message: "Server is running" });
 });
