@@ -8,6 +8,7 @@ import OverviewSection from "./OverviewSection.jsx";
 import useDashboardData from "../hooks/useDashboardData.js";
 import { aggregateMetrics } from "../utils/metrics.js";
 import { getFilteredActivities } from "../controllers/activityController.js";
+import WeatherCard from "../components/WeatherCard.jsx";
 
 export default function Dashboard({ onLogout }) {
   const {
@@ -64,6 +65,7 @@ export default function Dashboard({ onLogout }) {
         </section>
 
         <section className="lg:col-span-2 space-y-6">
+          <WeatherCard />
           <OverviewSection
             summary={summary}
             chartData={chartData}
