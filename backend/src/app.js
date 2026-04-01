@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
-import authRoutes from "./routes/auth.js";
-import activityRoutes from "./routes/activities.js";
-import metricRoutes from "./routes/metrics.js";
+import authRoutes from "./routes/authRoutes.js";
+import activityRoutes from "./routes/activityRoutes.js";
+import metricRoutes from "./routes/metricRoutes.js";
 
 const app = express();
 
