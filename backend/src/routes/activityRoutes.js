@@ -3,7 +3,7 @@ import {
   createActivity,
   getActivities,
   deleteActivity,
-} from "../controllers/activityController.js";
+} from "../services/activityServices.js";
 import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();

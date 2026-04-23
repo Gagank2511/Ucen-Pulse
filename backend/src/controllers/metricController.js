@@ -1,53 +1,31 @@
 import prisma from "../config/db.js";
 
-export async function getMetrics(req, res) {
-  try{
-      const metrics = await prisma.metric.findMany({
-        where: { userId: req.user.userId },
-        orderBy: { date: "desc" },
-      });
+export async function geAllMetrics(userId) {
+  const metrics = await prisma.metric.findMany({
+    where: { userId: userId },
+    orderBy: { date: "desc" },
+  });
     
-      res.json(metrics);
-  }
-  catch(err){
-      res.status(500).json({ message: err.message });
-  }
+  return metrics;
 }
 
-export async function createMetric(req, res) {
-  const { date, metric, value } = req.body;
+export async function createNewMetric(date, metric, value, userId) {
+  const newMetric = await prisma.metric.create({
+    data: {
+      date: new Date(date),
+      metric,
+      value: parseFloat(value),
+      userId: userId,
+    },
+  });
 
-  try{
-    console.log(parseFloat(metric));
-      const newMetric = await prisma.metric.create({
-        data: {
-          date: new Date(date),
-          metric,
-          value: parseFloat(value),
-          userId: req.user.userId,
-        },
-      });
-    
-      res.json(newMetric);
-  }
-    catch(err){
-        res.status(500).json({ message: err.message });
-    }
-
+  return newMetric;
 }
 
-export async function deleteMetric(req, res) {
-  const { id } = req.params;
+export async function deleteMetricById(id) {
+  await prisma.metric.delete({
+    where: { id: Number(id) },
+  });
 
-  try{
-      await prisma.metric.delete({
-        where: { id: Number(id) },
-      });
-    
-      res.json({ message: "Deleted" });
-  }
-  catch(err){
-      res.status(500).json({ message: err.message });
-  }
-
+  return { message: "Deleted" };
 }
