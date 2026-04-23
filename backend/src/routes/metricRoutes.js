@@ -3,7 +3,7 @@ import {
   getMetrics,
   createMetric,
   deleteMetric,
-} from "../controllers/metricController.js";
+} from "../services/metricServices.js";
 import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
@@ -12,4 +12,4 @@ router.get("/", protect, getMetrics);
 router.post("/", protect, createMetric);
 router.delete("/:id", protect, deleteMetric);
 
-export default router;
+export default router;f
