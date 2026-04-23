@@ -1,170 +1,235 @@
-# UCENPulse - Personal Fitness Tracker
+# 🏃‍♂️ UCENPulse — Personal Fitness Tracker
 
-A modern, client-side web application designed for UCEN Manchester students to log and visualize their personal fitness and wellness data.
+UCENPulse is a full-stack web application designed to help users log daily activities, track health metrics, and visualise trends over time. The system has evolved from a client-side application into a complete solution with a secure backend, persistent storage, and third-party API integration.
 
-## 🎯 Project Overview
 
-UCENPulse enables students to monitor daily activities, track health metrics, and explore trends over time through an interactive, responsive, and accessible interface.
+## 🚀 Features
 
-## ✨ Features
+### 👤 User Authentication
 
-### Activity Logging
-- Add daily activities (running, cycling, gym, yoga, swimming, walking)
-- Record duration and optional notes
-- Form validation with real-time error feedback
-- Character counter for notes (200 character limit)
+* Secure user registration and login
+* JWT-based authentication
+* Protected API routes
 
-### Health Metrics Tracking
-- Track multiple metrics: steps, water intake (L), sleep hours, calories
-- Metric-specific validation (e.g., steps: 0-100,000, water: 0-20L)
-- Client-side storage using localStorage
-- Data persistence across sessions
+### 🏋️ Activity Tracking
 
-### Data Visualization
-- Interactive charts with statistics (average, peak, total)
-- Bar charts for steps and calories
-- Area charts with gradients for water and sleep
-- Custom tooltips and legends
-- Filter by metric type
-- Adjustable date range (7-90 days)
+* Add, view, and delete fitness activities
+* Store duration, type, and notes
+* Linked to individual user accounts
 
-### Dashboard Overview
-- Today's metrics summary with visual progress bars
-- Goal tracking (10,000 steps, 2.5L water, 8hrs sleep, 2,000 calories)
-- Color-coded metric cards with emojis
-- Recent activities list with formatted dates
+### 📊 Metrics Tracking
 
-### Data Management
-- Export all data as JSON file
-- Clear all data with confirmation
-- Real-time notifications for user actions
+* Record health metrics (steps, water, sleep, calories)
+* View recent entries and trends
+* Data visualised using charts
 
-### Responsive Design & Accessibility
-- Mobile-first responsive design
-- ARIA labels and roles throughout
-- Semantic HTML5 elements
-- Keyboard navigation support
-- Focus management with visible focus indicators
-- Screen reader friendly
+### 📈 Data Visualisation
 
-## 🛠️ Technologies Used
+* Aggregated metrics over selectable time ranges
+* Interactive charts for insights
 
-- **React 18.2.0** - UI framework
-- **Vite** - Build tool and dev server
-- **Tailwind CSS** - Utility-first CSS framework
-- **Recharts** - Data visualization library
-- **localStorage API** - Client-side data persistence
-- **ES6+ JavaScript** - Modern JavaScript features
+### 🌦️ Web Service Integration
 
-## 📦 Installation
+* Integrated external **weather API**
+* Enhances context for activities (e.g., performance vs weather conditions)
 
-```bash
-# Install dependencies
+
+## 🧱 Tech Stack
+
+### Frontend
+
+* React (Vite)
+* Tailwind CSS
+* Fetch API
+
+### Backend
+
+* Node.js + Express
+* Prisma ORM
+* SQLite database
+* JWT authentication
+* Swagger (OpenAPI documentation)
+
+
+## 📁 Project Structure
+
+```id="project-structure"
+ucenpulse/
+├── frontend/               # React frontend
+│   ├── components/         # Reusable UI components
+│   ├── pages/              # Page-level components (Dashboard, Auth)
+│   ├── controllers/        # API interaction logic
+│   ├── hooks/              # Custom React hooks
+│   └── utils/              # Utility functions
+│
+├── backend/                # Express backend
+│   ├── controllers/        # Business logic & Prisma DB access
+│   ├── services/           # Handle HTTP requests/responses
+│   ├── routes/             # API route definitions
+│   ├── middleware/         # Auth middleware (JWT protection)
+│   ├── prisma/             # Prisma schema & migrations
+│   └── swagger/            # API documentation setup
+```
+
+
+## ⚙️ Installation & Setup
+
+### 1️⃣ Clone the repository
+
+```bash id="clone"
+git clone <your-repo-url>
+cd ucenpulse
+```
+
+
+### 2️⃣ Backend Setup
+
+```bash id="backend-setup"
+cd backend
 npm install
+```
 
-# Start development server
+Create a `.env` file:
+
+```env id="env"
+DATABASE_URL="file:./dev.db"
+JWT_SECRET="your_secret_key"
+```
+
+Run database migrations:
+
+```bash id="migrate"
+npx prisma migrate dev
+```
+
+Start backend server:
+
+```bash id="backend-run"
 npm run dev
-
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
 ```
 
-## 🚀 Usage
 
-1. **Add Activities**: Use the activity form to log your daily exercises
-2. **Record Metrics**: Track your health metrics (steps, water, sleep, calories)
-3. **View Dashboard**: Monitor your progress with visual indicators
-4. **Analyze Trends**: Use charts to visualize patterns over time
-5. **Filter Data**: Select different metrics and date ranges
-6. **Export Data**: Download your data as JSON for backup
+### 3️⃣ Frontend Setup
 
-## 📱 Responsive Breakpoints
-
-- Mobile: < 768px
-- Tablet: 768px - 1024px
-- Desktop: > 1024px
-
-## ♿ Accessibility Features
-
-- ARIA labels for all interactive elements
-- Semantic HTML structure
-- Keyboard navigation support
-- Focus visible indicators
-- Screen reader announcements for dynamic content
-- Color contrast compliance
-- Form validation with error messages
-
-## 🔮 Future Enhancements (Semester 2)
-
-### Server-Side Integration Considerations
-- **User Authentication**: JWT-based authentication system
-- **Database Storage**: PostgreSQL/MongoDB for persistent data storage
-- **RESTful API**: Endpoints for CRUD operations on activities and metrics
-- **Data Security**: Encrypted data transmission (HTTPS), input sanitization
-- **Multi-user Support**: User-specific data isolation
-- **Cloud Backup**: Automatic data synchronization
-- **Social Features**: Share achievements, compare with friends
-- **Advanced Analytics**: ML-based insights and recommendations
-
-### Planned API Endpoints
-```
-POST   /api/auth/register
-POST   /api/auth/login
-GET    /api/activities
-POST   /api/activities
-DELETE /api/activities/:id
-GET    /api/metrics
-POST   /api/metrics
-DELETE /api/metrics/:id
-GET    /api/analytics/trends
+```bash id="frontend-setup"
+cd frontend
+npm install
+npm run dev
 ```
 
-## 📊 Data Structure
+Frontend runs at:
 
-### Activity Object
-```javascript
-{
-  id: number,
-  date: "YYYY-MM-DD",
-  type: "Running" | "Cycling" | "Gym" | "Yoga" | "Swimming" | "Walking" | "Other",
-  duration: number, // minutes
-  notes: string // optional, max 200 chars
-}
+```id="frontend-url"
+http://localhost:5173
 ```
 
-### Metric Object
-```javascript
-{
-  id: number,
-  date: "YYYY-MM-DD",
-  metric: "steps" | "water" | "sleep" | "calories",
-  value: number
-}
+---
+
+## 🔐 Authentication (JWT)
+
+* Users authenticate via `/api/auth/login`
+* Server returns a JWT token
+* Token is stored in localStorage (simple implementation)
+* Protected routes require:
+
+```id="auth-header"
+Authorization: Bearer <token>
 ```
 
-## 🧪 Testing Recommendations
+Middleware validates the token before granting access.
 
-- Unit tests for utility functions
-- Component tests for forms and charts
-- Integration tests for data flow
-- Accessibility testing with screen readers
-- Cross-browser compatibility testing
-- Responsive design testing on multiple devices
 
-## 📝 License
+## 🗄️ Database (Prisma ORM)
 
-This project is created for educational purposes as part of UCEN Manchester coursework.
+Prisma is used for database access and schema management.
 
-## 👨‍💻 Author
+### Models:
 
-UCEN Manchester Student - Level 6 Project
+* **User**
+* **Activity**
+* **Metric**
 
-## 🙏 Acknowledgments
+### Example Relationship:
 
-- UCEN Manchester for project requirements
-- React and Vite communities
-- Recharts for visualization library
-- Tailwind CSS for styling framework
+* A user can have multiple activities and metrics
+
+Prisma ensures:
+
+* Type-safe queries
+* Easy migrations
+* Clean data relationships
+
+
+## 📡 API Documentation (Swagger)
+
+Swagger is used to document and test API endpoints.
+
+Access it at:
+
+```id="swagger-url"
+http://localhost:5000/api/docs
+```
+
+### Benefits:
+
+* Interactive API testing
+* Clear endpoint documentation
+* Improved frontend-backend integration
+
+---
+
+## 🌦️ Third-Party API Integration
+
+A weather API is integrated to enhance application functionality.
+
+### Purpose:
+
+* Provide contextual insights for activities
+* Example: correlate workout performance with weather conditions
+
+This demonstrates the use of **external web services to add real value**.
+
+
+## 🧪 Testing
+
+Basic unit and integration tests are implemented using:
+
+* Jest
+* Supertest
+
+Test coverage includes:
+
+* Authentication endpoints
+* Activity routes
+* Metric routes
+
+
+## 🔒 Security & Best Practices
+
+* Passwords hashed using bcrypt
+* JWT for stateless authentication
+* Protected API routes
+* Environment variables for secrets
+* Input validation and error handling
+
+
+## 📌 Future Improvements
+
+* Move token storage to HTTP-only cookies for better security
+* Add role-based access control
+* Improve UI/UX further
+* Add more third-party integrations (e.g., wearable APIs)
+
+
+## 📖 Conclusion
+
+UCENPulse demonstrates a complete full-stack application with:
+
+* Secure authentication
+* Persistent database integration
+* RESTful API design
+* Third-party service integration
+* Interactive data visualisation
+
+The project follows a modular and scalable architecture, separating concerns between controllers, services, and routes while leveraging modern tools such as Prisma and Swagger.
+
