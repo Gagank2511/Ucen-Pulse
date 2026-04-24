@@ -167,7 +167,7 @@ Swagger is used to document and test API endpoints.
 Access it at:
 
 ```id="swagger-url"
-http://localhost:5000/api/docs
+http://localhost:5001/api-docs
 ```
 
 ### Benefits:
