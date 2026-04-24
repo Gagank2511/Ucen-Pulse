@@ -12,4 +12,4 @@ router.get("/", protect, getMetrics);
 router.post("/", protect, createMetric);
 router.delete("/:id", protect, deleteMetric);
 
-export default router;f
+export default router;

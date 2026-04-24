@@ -1,4 +1,4 @@
-import { register, login } from "../controllers/authController";
+import {register, login} from "../controllers/authController.js"
 
 export async function registerUser(req, res){
     const { userDetails} = req.body;

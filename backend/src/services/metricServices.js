@@ -1,4 +1,4 @@
-import { createNewMetric, geAllMetrics, deleteMetric } from "../controllers/metricController";
+import { geAllMetrics, createNewMetric, deleteMetricById } from "../controllers/metricController.js";
 
 export async function getMetrics(req, res) {
     try{
